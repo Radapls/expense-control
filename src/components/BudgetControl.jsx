@@ -14,6 +14,14 @@
 import React from 'react'
 
 export default function BudgetControl({budget}) {
+
+    const currencyFormat = (quantity) => {
+        return quantity.toLocaleString('es-US', {
+            style: 'currency',
+            currency: 'USD'
+        })
+    }
+
   return (
     <div className='container-budget container shadow two-col'>
         <div>
@@ -22,7 +30,13 @@ export default function BudgetControl({budget}) {
 
         <div className='content-budget'>
             <p>
-                <span>Budget: </span> ${budget}
+                <span>Budget: </span> {currencyFormat(budget)}
+            </p>
+            <p>
+                <span>Available: </span> {currencyFormat(budget)}
+            </p>
+            <p>
+                <span>Spent: </span> {currencyFormat(budget)}
             </p>
         </div>
     </div>
