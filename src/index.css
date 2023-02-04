@@ -314,23 +314,23 @@ main {
     font-weight: 900;
     text-transform: uppercase;
 }
-.description-spent p {
+.spent-description p {
     margin-bottom: 1rem;
 }
-.description-spent .spent-name {
+.spent-description .spent-name {
     color: var(--dark-gray);
     font-size: 2.4rem;
     font-weight: 700;
 }
-.description-spent .spent-name:hover {
+.spent-description .spent-name:hover {
     cursor: pointer;
 }
-.description-spent .spent-date {
+.spent-description .spent-date {
     font-size: 1.8rem;
     font-weight: 900;
     color: var(--dark-gray);
 }
-.description-spent .spent-date span {
+.spent-description .spent-date span {
     font-weight: 400;
 }
 
@@ -412,7 +412,7 @@ body .modal {
     color: var(--white);
 }
 
-.slidable-list .swipe-action {
+.swipeable-list .swipe-action {
     display: flex;
     justify-content: center;
     align-items: center;

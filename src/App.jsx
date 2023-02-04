@@ -14,6 +14,7 @@
 import React, { useState } from 'react'
 import Header from './components/Header'
 import Modal from './components/Modal'
+import SpentList from './components/SpentList'
 import { generateID } from './helpers'
 import newSpent from './img/nuevo-gasto.svg'
 
@@ -37,6 +38,7 @@ function App() {
 
     const saveSpending = expense => {
         expense.id = generateID();
+        expense.date = Date.now();
         setSpent([...spent, expense]);
 
         setAnimateModal(false)
@@ -47,8 +49,9 @@ function App() {
     }
 
   return (
-    <div>
+    <div className={modal ? 'fix' : ''}>
         <Header
+            spent={spent}
             budget={budget}
             setBudget={setBudget}
             validBudget={validBudget}
@@ -56,12 +59,20 @@ function App() {
 
 
             {validBudget && (
-            <div className='new-spent'>
-                <img
-                    src={newSpent}
-                    alt="New spent icon"
-                    onClick={handleNewSpent}/>
-            </div> )}
+                <>
+                <main>
+                    <SpentList
+                    spent={spent} />
+                </main>
+
+                <div className='new-spent'>
+                    <img
+                        src={newSpent}
+                        alt="New spent icon"
+                        onClick={handleNewSpent}/>
+                </div>
+                </>
+            )}
 
         {modal &&
             <Modal

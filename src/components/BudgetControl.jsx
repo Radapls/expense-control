@@ -11,9 +11,21 @@
  * @date Saturday, 4th February 2023
  */
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-export default function BudgetControl({budget}) {
+export default function BudgetControl({budget, spent}) {
+
+    const [available, setAvailable] = useState(0)
+    const [used, setUsed] = useState(0)
+
+    useEffect(() => {
+        const totalSpent = spent.reduce((total, sp) => sp.quantity + total, 0)
+        const totalAvailable = budget - totalSpent;
+
+        setUsed(totalSpent)
+        setAvailable(totalAvailable)
+    }, [spent])
+
 
     const currencyFormat = (quantity) => {
         return quantity.toLocaleString('es-US', {
@@ -33,10 +45,10 @@ export default function BudgetControl({budget}) {
                 <span>Budget: </span> {currencyFormat(budget)}
             </p>
             <p>
-                <span>Available: </span> {currencyFormat(budget)}
+                <span>Available: </span> {currencyFormat(available)}
             </p>
             <p>
-                <span>Spent: </span> {currencyFormat(budget)}
+                <span>Spent: </span> {currencyFormat(used)}
             </p>
         </div>
     </div>
