@@ -84,7 +84,7 @@ header h1 {
     color: var(--white);
     margin-bottom: 4rem;
     padding-bottom: 1rem;
-    border-bottom: 2px solid var(--blue);
+    border-bottom: 4px solid var(--blue);
 }
 .form .field {
     display: grid;
@@ -364,6 +364,7 @@ main {
 }
 .modal .close-modal img {
     width: 100%;
+    cursor: pointer;
 }
 
 .modal .form {

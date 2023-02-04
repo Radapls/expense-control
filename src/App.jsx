@@ -13,11 +13,24 @@
 
 import React, { useState } from 'react'
 import Header from './components/Header'
+import Modal from './components/Modal'
+import newSpent from './img/nuevo-gasto.svg'
 
 function App() {
 
     const [budget, setBudget] = useState(0)
     const [validBudget, setValidBudget] = useState(false)
+
+    const [modal, setModal] = useState(false)
+    const [animateModal, setAnimateModal] = useState(false)
+
+    const handleNewSpent = () => {
+        setModal(true)
+
+        setTimeout(() => {
+            setAnimateModal(true)
+        }, 500)
+    }
 
   return (
     <div>
@@ -27,6 +40,21 @@ function App() {
             validBudget={validBudget}
             setValidBudget={setValidBudget}/>
 
+
+            {validBudget && (
+            <div className='new-spent'>
+                <img
+                    src={newSpent}
+                    alt="New spent icon"
+                    onClick={handleNewSpent}/>
+            </div> )}
+
+        {modal &&
+            <Modal
+                animateModal={animateModal}
+                setModal={setModal}
+                setAnimateModal={setAnimateModal}
+                />}
     </div>
   )
 }
