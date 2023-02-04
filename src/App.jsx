@@ -14,6 +14,7 @@
 import React, { useState } from 'react'
 import Header from './components/Header'
 import Modal from './components/Modal'
+import { generateID } from './helpers'
 import newSpent from './img/nuevo-gasto.svg'
 
 function App() {
@@ -24,11 +25,24 @@ function App() {
     const [modal, setModal] = useState(false)
     const [animateModal, setAnimateModal] = useState(false)
 
+    const [spent, setSpent] = useState([])
+
     const handleNewSpent = () => {
         setModal(true)
 
         setTimeout(() => {
             setAnimateModal(true)
+        }, 500)
+    }
+
+    const saveSpending = expense => {
+        expense.id = generateID();
+        setSpent([...spent, expense]);
+
+        setAnimateModal(false)
+
+        setTimeout(() => {
+            setModal(false)
         }, 500)
     }
 
@@ -54,6 +68,7 @@ function App() {
                 animateModal={animateModal}
                 setModal={setModal}
                 setAnimateModal={setAnimateModal}
+                saveSpending={saveSpending}
                 />}
     </div>
   )

@@ -10,10 +10,17 @@
  * @author Juan Felipe Rada <radapls8@gmail.com>
  * @date Saturday, 4th February 2023
  */
-import React from 'react'
+import React, { useState } from 'react'
 import Close from '../img/cerrar.svg'
+import Message from './Message'
 
-export default function Modal({setModal, animateModal, setAnimateModal}) {
+export default function Modal({setModal, animateModal, setAnimateModal, saveSpending}) {
+
+    const [message, setMessage] = useState('')
+
+    const [name, setName] = useState('')
+    const [quantity, setQuantity] = useState('')
+    const [category, setCategory] = useState('')
 
     const closeModal =  () => {
         setAnimateModal(false)
@@ -22,6 +29,24 @@ export default function Modal({setModal, animateModal, setAnimateModal}) {
             setModal(false)
         }, 500)
     }
+
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        if([name, quantity, category].includes('')) {
+            setMessage('All the fields are obligatory')
+            setTimeout(() => {
+                setMessage('')
+            }, 2000)
+            return;
+        }
+
+        saveSpending({name, quantity, category})
+        closeModal()
+    }
+
+
+
 
   return (
     <div className='modal'>
@@ -33,8 +58,11 @@ export default function Modal({setModal, animateModal, setAnimateModal}) {
                 onClick={closeModal}/>
         </div>
 
-        <form className={`form ${animateModal ? 'animate' : 'close'}`}>
+        <form  onSubmit={handleSubmit} className={`form ${animateModal ? 'animate' : 'close'}`}>
             <legend>New spent</legend>
+
+            {message && <Message type='error'>{message}</Message>}
+
 
             <div className='field'>
                 <label htmlFor="name">Name of the spent</label>
@@ -42,7 +70,9 @@ export default function Modal({setModal, animateModal, setAnimateModal}) {
                 <input
                     type='text'
                     placeholder='Add the spent name'
-                    id='name'/>
+                    id='name'
+                    value={name}
+                    onChange={e => setName(e.target.value)}/>
             </div>
 
             <div className='field'>
@@ -51,21 +81,26 @@ export default function Modal({setModal, animateModal, setAnimateModal}) {
                 <input
                     type='number'
                     placeholder='Add the quantity of th spent ex: 300'
-                    id='quantity'/>
+                    id='quantity'
+                    min='1'
+                    value={quantity}
+                    onChange={e => setQuantity(Number(e.target.value))}/>
             </div>
 
             <div className='field'>
                 <label htmlFor="category">Category</label>
 
                 <select
-                    id="category">
+                    id="category"
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}>
 
                         <option value="">--- Select one ---</option>
                         <option value="saving">Saving</option>
                         <option value="food">Food</option>
                         <option value="house">House</option>
                         <option value="various">Various</option>
-                        <option value="entertainment">entertainment</option>
+                        <option value="entertainment">Entertainment</option>
                         <option value="health">Health</option>
                         <option value="subscriptions">Subscriptions</option>
                 </select>
