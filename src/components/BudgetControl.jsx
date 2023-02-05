@@ -12,9 +12,12 @@
  */
 
 import React, { useEffect, useState } from 'react'
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 export default function BudgetControl({budget, spent}) {
 
+    const [percentage, setPercentage] = useState(0)
     const [available, setAvailable] = useState(0)
     const [used, setUsed] = useState(0)
 
@@ -22,8 +25,13 @@ export default function BudgetControl({budget, spent}) {
         const totalSpent = spent.reduce((total, sp) => sp.quantity + total, 0)
         const totalAvailable = budget - totalSpent;
 
+        const newPercentage = (((budget - totalAvailable) / budget * 100)).toFixed(2)
+
         setUsed(totalSpent)
         setAvailable(totalAvailable)
+        setTimeout(() => {
+            setPercentage(newPercentage)
+        },1000)
     }, [spent])
 
 
@@ -37,7 +45,15 @@ export default function BudgetControl({budget, spent}) {
   return (
     <div className='container-budget container shadow two-col'>
         <div>
-            <p>Graph here</p>
+            <CircularProgressbar
+                styles={buildStyles({
+                    pathColor: '#0f52bd',
+                    trailColor: '#eee8e8',
+                    textColor: '#0f52bd'
+                })}
+                text={`${percentage}% Spent`}
+                value={percentage}>
+            </CircularProgressbar>
         </div>
 
         <div className='content-budget'>
