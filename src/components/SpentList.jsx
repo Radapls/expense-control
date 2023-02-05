@@ -14,18 +14,45 @@
 import React from 'react'
 import Expense from './Expense'
 
-export default function SpentList({spent, setEditSpent, deleteExpense}) {
+export default function SpentList({
+        spent,
+        setEditSpent,
+        deleteExpense,
+        filter,
+        filterExpenses
+    }) {
   return (
     <div className='spent-list container'>
-        <h2>{spent.length ? 'Expenses': 'There are no expenses yet'}</h2>
 
-        {spent.map(expense => (
-            <Expense
-                key={expense.id}
-                expense={expense}
-                setEditSpent={setEditSpent}
-                deleteExpense={deleteExpense}/>
-        ))}
+        { filter
+            ? ( <>
+                    <h2>{filterExpenses.length ? 'Expenses': 'There are no expenses yet'}</h2>
+
+                    {filterExpenses.map(expense => (
+                    <Expense
+                        key={expense.id}
+                        expense={expense}
+                        setEditSpent={setEditSpent}
+                        deleteExpense={deleteExpense}
+                    />
+                ))}
+            </>
+            )
+            : (
+                <>
+            <h2>{spent.length ? 'Expenses': 'There are no expenses yet'}</h2>
+
+                {spent.map(expense => (
+                    <Expense
+                        key={expense.id}
+                        expense={expense}
+                        setEditSpent={setEditSpent}
+                        deleteExpense={deleteExpense}
+                    />
+            ))}
+            </>
+            )
+        }
     </div>
   )
 }

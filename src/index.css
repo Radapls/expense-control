@@ -249,7 +249,7 @@ main {
     padding-top: 10rem;
 }
 
-.filter .filed {
+.filter .field {
     display: flex;
     align-items: center;
     gap: 2rem;

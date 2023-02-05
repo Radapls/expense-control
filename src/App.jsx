@@ -12,6 +12,7 @@
  */
 
 import React, { useEffect, useState } from 'react'
+import Filter from './components/Filter'
 import Header from './components/Header'
 import Modal from './components/Modal'
 import SpentList from './components/SpentList'
@@ -20,15 +21,22 @@ import newSpent from './img/nuevo-gasto.svg'
 
 function App() {
 
-    const [spent, setSpent] = useState([])
+    const [spent, setSpent] = useState(
+        JSON.parse(localStorage.getItem('expenses')) ?? []
+    )
 
-    const [budget, setBudget] = useState(0)
+    const [budget, setBudget] = useState(
+        Number(localStorage.getItem('budget' ?? 0))
+    )
     const [validBudget, setValidBudget] = useState(false)
 
     const [modal, setModal] = useState(false)
     const [animateModal, setAnimateModal] = useState(false)
 
     const [editSpent, setEditSpent] = useState({})
+
+    const [filter, setFilter] = useState('')
+    const [filterExpenses, setFilterExpenses] = useState([])
 
     useEffect(() => {
         if(Object.keys(editSpent).length > 0) {
@@ -40,6 +48,30 @@ function App() {
         }
     },[editSpent])
 
+    useEffect(() => {
+        localStorage.setItem('budget', budget ?? 0)
+    }, [budget])
+
+
+    useEffect(() => {
+        localStorage.setItem('expenses', JSON.stringify(spent) ?? []);
+    }, [spent])
+
+    useEffect(() => {
+        if(filter){
+            const filterExpenses = spent.filter(spent => spent.category === filter);
+
+            setFilterExpenses(filterExpenses)
+        }
+    }, [filter])
+
+    useEffect(() => {
+        const budgetLocalStorage = Number(localStorage.getItem('budget')) ?? 0;
+
+        if(budgetLocalStorage > 0) {
+            setValidBudget(true)
+        }
+    }, [])
 
     const handleNewSpent = () => {
         setModal(true)
@@ -92,10 +124,16 @@ function App() {
             {validBudget && (
                 <>
                 <main>
+                    <Filter
+                        filter={filter}
+                        setFilter={setFilter}/>
                     <SpentList
                         spent={spent}
                         setEditSpent={setEditSpent}
-                        deleteExpense={deleteExpense}/>
+                        deleteExpense={deleteExpense}
+                        filter={filter}
+                        filterExpenses={filterExpenses}
+                        />
                 </main>
 
                 <div className='new-spent'>
