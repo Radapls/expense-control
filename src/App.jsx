@@ -115,6 +115,7 @@ function App() {
     <div className={modal ? 'fix' : ''}>
         <Header
             spent={spent}
+            setSpent={setSpent}
             budget={budget}
             setBudget={setBudget}
             validBudget={validBudget}

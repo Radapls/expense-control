@@ -15,7 +15,13 @@ import React, { useEffect, useState } from 'react'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 
-export default function BudgetControl({budget, spent}) {
+export default function BudgetControl({
+        budget,
+        setBudget,
+        spent,
+        setSpent,
+        setValidBudget
+    }) {
 
     const [percentage, setPercentage] = useState(0)
     const [available, setAvailable] = useState(0)
@@ -34,7 +40,6 @@ export default function BudgetControl({budget, spent}) {
         },1000)
     }, [spent])
 
-
     const currencyFormat = (quantity) => {
         return quantity.toLocaleString('es-US', {
             style: 'currency',
@@ -42,14 +47,24 @@ export default function BudgetControl({budget, spent}) {
         })
     }
 
+    const handleResetApp = () => {
+        const result = confirm('Do you want to reset budget and expenses?')
+
+        if(result) {
+            setSpent([])
+            setBudget(0)
+            setValidBudget(false)
+        }
+    }
+
   return (
     <div className='container-budget container shadow two-col'>
         <div>
             <CircularProgressbar
                 styles={buildStyles({
-                    pathColor: '#0f52bd',
+                    pathColor: percentage > 100 ? '#dc2626' : '#0f52bd',
                     trailColor: '#eee8e8',
-                    textColor: '#0f52bd'
+                    textColor: percentage > 100 ? '#dc2626' : '#0f52bd'
                 })}
                 text={`${percentage}% Spent`}
                 value={percentage}>
@@ -57,10 +72,11 @@ export default function BudgetControl({budget, spent}) {
         </div>
 
         <div className='content-budget'>
+            <button className='reset-app' type='button' onClick={handleResetApp}>Reset app</button>
             <p>
                 <span>Budget: </span> {currencyFormat(budget)}
             </p>
-            <p>
+            <p className={`${available < 0 ? 'negative' : ''}`}>
                 <span>Available: </span> {currencyFormat(available)}
             </p>
             <p>

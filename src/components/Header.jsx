@@ -15,7 +15,14 @@ import React from 'react'
 import BudgetControl from './BudgetControl'
 import NewBudget from './NewBudget'
 
-export default function Header({budget, setBudget, validBudget, setValidBudget, spent}) {
+export default function Header({
+        budget,
+        setBudget,
+        validBudget,
+        setValidBudget,
+        spent,
+        setSpent
+}) {
   return (
     <header>
         <div className='header-brand'>
@@ -27,7 +34,10 @@ export default function Header({budget, setBudget, validBudget, setValidBudget, 
 
             ? ( <BudgetControl
                 budget={budget}
-                spent={spent}/> )
+                setBudget={setBudget}
+                setSpent={setSpent}
+                spent={spent}
+                setValidBudget={setValidBudget}/> )
 
             : ( <NewBudget
                 budget={budget}
