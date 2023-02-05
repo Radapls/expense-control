@@ -14,7 +14,7 @@
 import React from 'react'
 import Expense from './Expense'
 
-export default function SpentList({spent, setEditSpent}) {
+export default function SpentList({spent, setEditSpent, deleteExpense}) {
   return (
     <div className='spent-list container'>
         <h2>{spent.length ? 'Expenses': 'There are no expenses yet'}</h2>
@@ -23,7 +23,8 @@ export default function SpentList({spent, setEditSpent}) {
             <Expense
                 key={expense.id}
                 expense={expense}
-                setEditSpent={setEditSpent}/>
+                setEditSpent={setEditSpent}
+                deleteExpense={deleteExpense}/>
         ))}
     </div>
   )

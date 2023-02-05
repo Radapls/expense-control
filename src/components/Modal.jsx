@@ -19,7 +19,8 @@ export default function Modal({
         animateModal,
         setAnimateModal,
         saveSpending,
-        editSpent})
+        editSpent,
+        setEditSpent})
 {
     const [message, setMessage] = useState('')
     const [name, setName] = useState('')
@@ -40,6 +41,7 @@ export default function Modal({
 
     const closeModal =  () => {
         setAnimateModal(false)
+        setEditSpent({})
 
         setTimeout(() => {
             setModal(false)

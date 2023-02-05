@@ -50,6 +50,12 @@ function App() {
         }, 500)
     }
 
+    const deleteExpense = id => {
+        const updatedExpenses = spent.filter(res => res.id !== id)
+
+        setSpent(updatedExpenses)
+    }
+
     const saveSpending = expense => {
 
         if(expense.id){
@@ -59,6 +65,7 @@ function App() {
                     : spentState)
 
             setSpent(updatedExpenses)
+            setEditSpent({})
         } else {
             expense.id = generateID();
             expense.date = Date.now();
@@ -87,7 +94,8 @@ function App() {
                 <main>
                     <SpentList
                         spent={spent}
-                        setEditSpent={setEditSpent}/>
+                        setEditSpent={setEditSpent}
+                        deleteExpense={deleteExpense}/>
                 </main>
 
                 <div className='new-spent'>
@@ -106,6 +114,7 @@ function App() {
                 setAnimateModal={setAnimateModal}
                 saveSpending={saveSpending}
                 editSpent={editSpent}
+                setEditSpent={setEditSpent}
                 />}
     </div>
   )

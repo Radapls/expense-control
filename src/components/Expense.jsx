@@ -35,7 +35,7 @@ const iconLibrary = {
     subscriptions: SubscriptionsIcon
 }
 
-export default function Expense({expense, setEditSpent}) {
+export default function Expense({expense, setEditSpent, deleteExpense}) {
 
     const {name, quantity, category, id, date} = expense;
 
@@ -48,7 +48,9 @@ export default function Expense({expense, setEditSpent}) {
 
     const trailingActions = () =>(
         <TrailingActions>
-            <SwipeAction onClick={() => console.log('kek')}>
+            <SwipeAction
+                onClick={() => deleteExpense(id)}
+                destructive={true}>
                 Delete
             </SwipeAction>
         </TrailingActions>
