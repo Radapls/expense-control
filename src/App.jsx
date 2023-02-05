@@ -11,7 +11,7 @@
  * @date Friday, 3rd February 2023
  */
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './components/Header'
 import Modal from './components/Modal'
 import SpentList from './components/SpentList'
@@ -20,16 +20,30 @@ import newSpent from './img/nuevo-gasto.svg'
 
 function App() {
 
+    const [spent, setSpent] = useState([])
+
     const [budget, setBudget] = useState(0)
     const [validBudget, setValidBudget] = useState(false)
 
     const [modal, setModal] = useState(false)
     const [animateModal, setAnimateModal] = useState(false)
 
-    const [spent, setSpent] = useState([])
+    const [editSpent, setEditSpent] = useState({})
+
+    useEffect(() => {
+        if(Object.keys(editSpent).length > 0) {
+            setModal(true)
+
+            setTimeout(() => {
+                setAnimateModal(true)
+            }, 500)
+        }
+    },[editSpent])
+
 
     const handleNewSpent = () => {
         setModal(true)
+        setEditSpent({})
 
         setTimeout(() => {
             setAnimateModal(true)
@@ -37,9 +51,19 @@ function App() {
     }
 
     const saveSpending = expense => {
-        expense.id = generateID();
-        expense.date = Date.now();
-        setSpent([...spent, expense]);
+
+        if(expense.id){
+            const updatedExpenses = spent.map(spentState =>
+                spentState.id === expense.id
+                    ? expense
+                    : spentState)
+
+            setSpent(updatedExpenses)
+        } else {
+            expense.id = generateID();
+            expense.date = Date.now();
+            setSpent([...spent, expense]);
+        }
 
         setAnimateModal(false)
 
@@ -62,7 +86,8 @@ function App() {
                 <>
                 <main>
                     <SpentList
-                    spent={spent} />
+                        spent={spent}
+                        setEditSpent={setEditSpent}/>
                 </main>
 
                 <div className='new-spent'>
@@ -80,6 +105,7 @@ function App() {
                 setModal={setModal}
                 setAnimateModal={setAnimateModal}
                 saveSpending={saveSpending}
+                editSpent={editSpent}
                 />}
     </div>
   )

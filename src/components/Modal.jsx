@@ -10,17 +10,33 @@
  * @author Juan Felipe Rada <radapls8@gmail.com>
  * @date Saturday, 4th February 2023
  */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Close from '../img/cerrar.svg'
 import Message from './Message'
 
-export default function Modal({setModal, animateModal, setAnimateModal, saveSpending}) {
-
+export default function Modal({
+        setModal,
+        animateModal,
+        setAnimateModal,
+        saveSpending,
+        editSpent})
+{
     const [message, setMessage] = useState('')
-
     const [name, setName] = useState('')
     const [quantity, setQuantity] = useState('')
     const [category, setCategory] = useState('')
+    const [id, setId] = useState('')
+    const [date, setDate] = useState('')
+
+    useEffect(() => {
+        if(Object.keys(editSpent).length > 0) {
+            setName(editSpent.name)
+            setQuantity(editSpent.quantity)
+            setCategory(editSpent.category)
+            setId(editSpent.id)
+            setDate(editSpent.date)
+        }
+    },[])
 
     const closeModal =  () => {
         setAnimateModal(false)
@@ -41,7 +57,7 @@ export default function Modal({setModal, animateModal, setAnimateModal, saveSpen
             return;
         }
 
-        saveSpending({name, quantity, category})
+        saveSpending({name, quantity, category, id, date})
         closeModal()
     }
 
@@ -59,7 +75,7 @@ export default function Modal({setModal, animateModal, setAnimateModal, saveSpen
         </div>
 
         <form  onSubmit={handleSubmit} className={`form ${animateModal ? 'animate' : 'close'}`}>
-            <legend>New spent</legend>
+            <legend>{editSpent.name ? 'Edit Spent' : 'New spent'}</legend>
 
             {message && <Message type='error'>{message}</Message>}
 
@@ -106,7 +122,7 @@ export default function Modal({setModal, animateModal, setAnimateModal, saveSpen
                 </select>
             </div>
 
-            <input type="submit" value="Add spent" />
+            <input type="submit" value={editSpent.name ? 'Save changes' : 'Add spent'} />
 
         </form>
 

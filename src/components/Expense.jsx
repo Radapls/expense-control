@@ -35,13 +35,15 @@ const iconLibrary = {
     subscriptions: SubscriptionsIcon
 }
 
-export default function Expense({expense}) {
+export default function Expense({expense, setEditSpent}) {
 
     const {name, quantity, category, id, date} = expense;
 
     const leadingActions = () => (
     <LeadingActions>
-        <SwipeAction onClick={() => console.log('kek')}> Edit</SwipeAction>
+        <SwipeAction onClick={() => setEditSpent(expense)}>
+            Edit
+        </SwipeAction>
     </LeadingActions>)
 
     const trailingActions = () =>(
@@ -64,6 +66,7 @@ export default function Expense({expense}) {
                 { <img
                     src={iconLibrary[category]}
                     alt='Spent Icon'
+                    draggable='false'
                 />}
 
                 <div className="spent-description">
