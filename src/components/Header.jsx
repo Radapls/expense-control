@@ -26,7 +26,7 @@ export default function Header({
   return (
     <header>
         <div className='header-brand'>
-            <img src="src/img/abacus.webp" width='80px' alt="abacus" draggable='false'/>
+            <img src="./src/img/abacus.webp" width='80px' alt="abacus" draggable='false'/>
             <h1>Cost Control</h1>
         </div>
 
